@@ -1,89 +1,91 @@
-# Energy-Consumption-Time Series Forecasting
+# ⚡ PMJE Energy Consumption Forecasting — Time Series Project
 
-# ⚡️ PJME Interconnection Energy Demand Forecasting
-
-## 📘 Project Overview
-
-This repository contains a **production-ready solution** for forecasting **hourly electricity demand** for the **PJME (Pennsylvania, Jersey, Maryland, Electric)** interconnection region.
-
-Accurate short-term forecasting is critical for energy utilities to manage **grid stability**, **schedule power generation**, and **optimize procurement costs**.  
-This project demonstrates a **systematic and data-driven approach** to time series forecasting, leveraging advanced **feature engineering**, **multiple modeling paradigms**, and **state-of-the-art hyperparameter optimization**.
-
-The complete analysis is available in the notebook:  
-📄 `PMJE_Energy_Consumption.ipynb`
+## 📘 Overview
+This project focuses on forecasting **hourly energy consumption** for the PJME region using multiple time series modeling techniques.  
+The primary objective was to develop a **robust, accurate, and production-ready forecasting system** that leverages both classical and modern machine learning methods.
 
 ---
 
-## 🛠️ Technology & Libraries
+## 🚀 Workflow Summary
 
-This project leverages modern data science tools for **time series analysis** and **forecasting**.
-
-| **Category** | **Key Libraries** | **Purpose** |
-|---------------|-------------------|--------------|
-| **Forecasting** | `xgboost`, `Prophet`, `statsmodels` | Primary modeling engines (Ensemble, Decomposable, Classical). |
-| **Optimization** | `Optuna` | Systematic and efficient hyperparameter tuning for the XGBoost model. |
-| **Data Handling** | `pandas`, `numpy`, `USFederalHolidayCalendar` | Data manipulation and complex feature extraction. |
-| **Metrics** | `sklearn.metrics` | Validation using MAE, RMSE, and MAPE. |
+### 1️⃣ Data Preparation & Cleaning
+- Loaded and explored the dataset, inspecting datatypes and timestamp consistency.  
+- Converted the `Datetime` column to a proper `datetime` index and set hourly frequency to ensure no missing timestamps.  
+- Checked and handled duplicate timestamps.  
+- Renamed the target column to `y` and datetime index to `ds` for compatibility with Prophet.  
+- Split the dataset into **training** and **testing** sets and visualized both for temporal validation.
 
 ---
 
-## 📈 Methodology Highlights
-
-The core of this solution lies in its **rigorous methodology**, going beyond traditional time-based models.
-
-### 1. Advanced Feature Engineering
-
-A comprehensive set of **time series** and **exogenous features** was engineered to capture known consumption patterns:
-
-- **Temporal Features:** Year, quarter, month, dayofyear, dayofweek, and hour.  
-- **Calendar Effects:** Integration of `USFederalHolidayCalendar` to create binary holiday flags.  
-- **Time Series Lags:** Lagged features such as `lag_1h`, `lag_1day`, `lag_1week` to capture short and long temporal dependencies.  
-- **Trend Smoothing:** Rolling means (7-day, 30-day, 200-day) for noise reduction and trend estimation.  
+### 2️⃣ Feature Engineering
+- Created a **feature generation function** that engineered multiple exogenous predictors:
+  - **Temporal features:** year, month, week, day of week, hour.
+  - **Rolling statistics:** moving averages, lag features (1H, 1D, 1W).
+  - **Seasonal indicators:** season flags, U.S. holidays, weekends.
+- Imputed missing values using both **forward fill** and **backward fill**.
+- One-hot encoded categorical variables using `OneHotEncoder` from scikit-learn.
 
 ---
 
-### 2. Multi-Model Approach
+### 3️⃣ Modeling & Evaluation
+#### 📊 Model 1: SARIMAX
+- Determined model parameters using ADFuller test, ACF/PACF plots, and seasonal decomposition.
+- The SARIMAX model **failed to converge**, likely due to strong seasonality and numerous exogenous regressors.
 
-Three distinct forecasting methods were compared before finalizing the **ensemble model**:
+#### 📊 Model 2: Prophet (Base Model)
+| Metric | Value |
+|--------|--------|
+| MAE | 604.04 |
+| RMSE | 792.58 |
+| MAPE | 1.907% |
 
-| **Model** | **Type** | **Description** |
-|------------|-----------|-----------------|
-| **SARIMAX** | Classical | Baseline capturing linear autocorrelation. |
-| **Prophet** | Decomposable | Models trend, seasonality, and holidays efficiently. |
-| **XGBoost** | Ensemble Tree | Captures non-linear interactions between engineered features. |
+#### 📈 Prophet (Tuned with Optuna)
+| Metric | Value |
+|--------|--------|
+| MAE | 603.06 |
+| RMSE | 791.86 |
+| MAPE | **1.9029%** |
 
----
+Achieved a **slightly improved but more stable model** through hyperparameter optimization.
 
-### 3. Systematic Hyperparameter Optimization (Optuna)
+#### 📊 Model 3: XGBoost Regressor
+| Model | MAE | RMSE | MAPE |
+|--------|--------|--------|--------|
+| Baseline | 941.00 | 1204.85 | 3.039% |
+| Tuned (Optuna) | — | 1132.88 | 2.569% |
 
-The final **XGBoost** model was tuned using **Optuna**, optimizing the **Mean Absolute Percentage Error (MAPE)** through intelligent search — outperforming grid search in efficiency and accuracy.
-
----
-
-## 📊 Results & Validation
-
-Model performance was rigorously validated using **Time Series Cross-Validation**.
-
-| **Metric** | **Result** |
-|-------------|-------------|
-| **MAPE** | [Insert Final MAPE Score] % |
-| **RMSE** | [Insert Final RMSE Score] |
-| **MAE** | [Insert Final MAE Score] |
-
-### 🔍 Key Findings
-
-- **Lag features** (`1-day` and `1-week`) and **holiday flags** were the most influential predictors.  
-- The **XGBoost model** significantly outperformed the classical and decomposable models, effectively capturing **non-linear relationships** between temperature, time of day, and demand.  
+Although tuning improved performance, **Prophet remained the most accurate** for this dataset.
 
 ---
 
-## 🚀 How to Run the Notebook
+### 4️⃣ Final Outcome
+- Selected **Prophet (Optuna-tuned)** as the final model.
+- Demonstrated strong generalization and forecasting precision, achieving a **MAPE of 1.90%**.
+- Designed pipeline ready for deployment in production forecasting systems.
 
-### 1. Clone the Repository
+---
 
-```bash
-git clone [your-repo-link]
-cd pjme-energy-forecasting
+## 🧠 Key Tools & Libraries
+`Python` | `Prophet` | `XGBoost` | `Optuna` | `scikit-learn` | `pandas` | `NumPy` | `matplotlib` | `seaborn`
 
-pip install -r requirements.txt
-If no requirements.txt is provided, install the main libraries manually:
+---
+
+## ⚙️ How to Run
+1. Clone this repository.
+2. Install required dependencies from `requirements.txt`.
+3. Open and run `PMJE_Forecasting.ipynb` in Jupyter Notebook.
+4. Adjust hyperparameter tuning ranges in the Optuna study to experiment with performance.
+
+---
+
+## 🧩 Results Summary
+✅ Best Performing Model: **Prophet (Optuna-tuned)**  
+✅ Final MAPE: **1.90%**  
+✅ Robust against missing timestamps, duplicates, and irregular patterns.
+
+---
+
+## 📂 Author
+**Paramesh Bandhu Banerjee**  
+📧 parameshbbanerjee@gmail.com  
+🎓 B.Sc. in Statistics | Presidency University, Kolkata
