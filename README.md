@@ -32,47 +32,34 @@ The primary objective was to develop a **robust, accurate, and production-ready 
 - Determined model parameters using ADFuller test, ACF/PACF plots, and seasonal decomposition.
 - The SARIMAX model **failed to converge**, likely due to strong seasonality and numerous exogenous regressors.
 
-####  Model 2: Prophet (Base Model)
-| Metric | Value |
-|--------|--------|
-| MAE | 604.04 |
-| RMSE | 792.58 |
-| MAPE | 1.907% |
-
-####  Prophet (Tuned with Optuna)
+####  Model 2: Prophet (Tuned with Optuna)
 | Metric | Value |
 |--------|--------|
 | MAE | 603.06 |
 | RMSE | 791.86 |
-| MAPE | **1.9029%** |
+| MAPE | 1.9029% |
 
 Achieved a **slightly improved but more stable model** through hyperparameter optimization.
 
 ####  Model 3: XGBoost Regressor
 | Model | MAE | RMSE | MAPE |
 |--------|--------|--------|--------|
-| Baseline | 941.00 | 1204.85 | 3.039% |
-| Tuned (Optuna) | — | 1132.88 | 2.569% |
+| Tuned (Optuna) | 42.5086 | 159.453 | **0.1199 %** |
 
 Although tuning improved performance, **Prophet remained the most accurate** for this dataset.
 
 ---
 
 ###  Final Outcome
-- Selected **Prophet (Optuna-tuned)** as the final model.
-- Demonstrated strong generalization and forecasting precision, achieving a **MAPE of 1.90%**.
+- Selected **XGBooost (Optuna-tuned)** as the final model.
+- Demonstrated strong generalization and forecasting precision, achieving a **MAPE of 0.1199 %**.
 
 ---
 
 ##  Key Tools & Libraries
 `Python` | `Prophet` | `XGBoost` | `Optuna` | `scikit-learn` | `pandas` | `NumPy` | `matplotlib` | `seaborn`
 
----
 
-##  Results Summary
-- Best Performing Model: **Prophet (Optuna-tuned)**  
-- Final MAPE: **1.90%**  
-- Robust against missing timestamps, duplicates, and irregular patterns.
 
 ---
 
