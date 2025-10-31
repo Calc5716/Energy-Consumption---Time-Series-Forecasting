@@ -59,11 +59,3 @@ Although tuning improved performance, **Prophet remained the most accurate** for
 ##  Key Tools & Libraries
 `Python` | `Prophet` | `XGBoost` | `Optuna` | `scikit-learn` | `pandas` | `NumPy` | `matplotlib` | `seaborn`
 
-
-
----
-
-## 📂 Author
-**Paramesh Bandhu Banerjee**  
-📧 parameshbbanerjee@gmail.com  
-🎓 B.Sc. in Statistics | Presidency University, Kolkata
