@@ -35,24 +35,25 @@ The primary objective was to develop a **robust, accurate, and production-ready 
 ####  Model 2: Prophet (Tuned with Optuna)
 | Metric | Value |
 |--------|--------|
-| MAE | 603.06 |
-| RMSE | 791.86 |
-| MAPE | 1.9029% |
+| MAE | 602.90 |
+| RMSE | 791.81 |
+| MAPE | **1.9023%** |
 
 Achieved a **slightly improved but more stable model** through hyperparameter optimization.
 
+---
 ####  Model 3: XGBoost Regressor
 | Model | MAE | RMSE | MAPE |
 |--------|--------|--------|--------|
-| Tuned (Optuna) | 42.5086 | 159.453 | **0.1199 %** |
+| Tuned (Optuna) | 860.88 | 1160.79 | 2.6369 % |
 
 Although tuning improved performance, **Prophet remained the most accurate** for this dataset.
 
 ---
 
 ###  Final Outcome
-- Selected **XGBooost (Optuna-tuned)** as the final model.
-- Demonstrated strong generalization and forecasting precision, achieving a **MAPE of 0.1199 %**.
+- Selected **Prophet (Optuna-tuned)** as the final model.
+- Demonstrated strong generalization and forecasting precision, achieving a **MAPE of 1.9023% %**.
 
 ---
 
